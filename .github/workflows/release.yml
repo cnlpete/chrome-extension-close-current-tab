@@ -37,17 +37,18 @@ jobs:
             '.version = $version' \
             manifest.json > dist/package/manifest.json
 
-          cp service-worker.js README.md LICENSE dist/package/
+          cp service-worker.js dist/package/
+          cp README.md LICENSE dist/
 
-          zip -j "dist/close-current-tab-${TAG}.zip" \
-            dist/package/manifest.json \
-            dist/package/service-worker.js \
-            dist/package/README.md \
-            dist/package/LICENSE
+          cd dist && zip "close-current-tab-${TAG}.zip" \
+            package/manifest.json \
+            package/service-worker.js \
+            README.md \
+            LICENSE && cd ..
 
           tar -czf "$GITHUB_WORKSPACE/dist/close-current-tab-${TAG}.tar.gz" \
-            -C dist/package \
-            manifest.json service-worker.js README.md LICENSE
+            -C dist \
+            package/manifest.json package/service-worker.js README.md LICENSE
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
