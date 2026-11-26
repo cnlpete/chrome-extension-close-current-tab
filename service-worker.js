@@ -1,5 +1,6 @@
 // Register the click handler before attempting any icon work.
 chrome.action.onClicked.addListener((tab) => {
+  console.log("onClicked:", tab?.id);
   if (!Number.isInteger(tab?.id)) return;
 
   chrome.tabs.remove(tab.id).catch((error) => {
@@ -29,6 +30,7 @@ function makeXIcon(size) {
 }
 
 async function setButtonIcon() {
+  console.log("setButtonIcon");
   try {
     await chrome.action.setIcon({
       imageData: {
@@ -43,6 +45,7 @@ async function setButtonIcon() {
   }
 }
 
+console.log("init");
 chrome.runtime.onInstalled.addListener(setButtonIcon);
 chrome.runtime.onStartup.addListener(setButtonIcon);
 setButtonIcon();
